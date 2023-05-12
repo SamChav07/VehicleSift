@@ -1,4 +1,6 @@
 #include <iostream>
+#include <string> 
+
 using namespace std;
 
 void accSys();
@@ -25,7 +27,7 @@ void accSys()
         } else {
             cout << "Acceso denegado..." << endl;
             cout << "*** Presione enter para volver a introdocir las credenciales ***" << endl;
-            cin.get();
+            cin.ignore(); // Se cambia cin.get() por cin.ignore()
             
         }
     } while (login != 1);
@@ -41,4 +43,10 @@ int credentials(string & username, string & password)
         confirmation = 1;
     }
     return confirmation;
+}
+
+int main()
+{
+    accSys(); // Se agrega esta línea para llamar a la función accSys()
+    return 0;
 }
