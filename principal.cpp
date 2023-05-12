@@ -1,9 +1,15 @@
 #include <iostream>
+#include "login.h"
+#include "mainmenu.h"
 
 using namespace std;
 
-int main(int argc, char const *argv[])
+int main()
 {
-   
+    if (accSys())
+    {
+        mainmenu();
+    } 
+    
     return 0;
 }

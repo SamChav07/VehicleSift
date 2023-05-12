@@ -1,8 +1,9 @@
 #include <iostream>
 using namespace std;
-int main()
+
+void searchmenu ()
 {
-    int opciones;
+    int options;
     do
     {
         cout << "MENU" << endl;
@@ -17,9 +18,9 @@ int main()
         cout << "9. Salir..." << endl;
 
         cout << "Selecione una opción: ";
-        cin >> opciones;
+        cin >> options;
 
-        switch (opciones)
+        switch (options)
         {
         case 1:
             cout << "Ingresaste a:" << endl;
@@ -65,7 +66,6 @@ int main()
             cout << "Opción Invalida. Seleccione una opción del 1 al 8..." << endl;
             break;
         }
-    } while (opciones != 9);
+    } while (options != 9);
 
-    return 0;
 }
