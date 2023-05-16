@@ -1,5 +1,11 @@
 #include <iostream>
-#include <string> 
+#include <stdlib.h>
+#ifdef _WIN32 //este es para window
+    #define CLEAR "cls"
+#else 
+    #define CLEAR "clear" //y este para los demas
+#endif
+/*Gabriel ni se te ocurra tocarlo que lo descompones*/
 
 using namespace std;
 
@@ -13,6 +19,7 @@ void accSys()
     int login;
     do 
     {
+        system(CLEAR);
         cout << " Bienvenido a VehicleSift " << endl;
         cout << "Escriba su usuario: " << endl;
         cin >> enterusername;
@@ -27,8 +34,8 @@ void accSys()
         } else {
             cout << "Acceso denegado..." << endl;
             cout << "*** Presione enter para volver a introdocir las credenciales ***" << endl;
-            cin.ignore(); // Se cambia cin.get() por cin.ignore()
-            
+            cin.ignore(); 
+
         }
     } while (login != 1);
   
@@ -47,6 +54,6 @@ int credentials(string & username, string & password)
 
 int main()
 {
-    accSys(); // Se agrega esta línea para llamar a la función accSys()
+    accSys(); 
     return 0;
 }
