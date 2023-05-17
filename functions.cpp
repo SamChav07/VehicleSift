@@ -1,101 +1,274 @@
 #include <iostream>
-#include <vector>
-#include <stdio.h>
-#include <string.h>
+#include <string>
+#include "auxiliar.h"
 #include "structure.h"
-#define MAX 100 //los valores de max sean 100
 
 using namespace std;
 
-trucks trucksData[MAX];
 int lastReg = 0;
+// login
+void login();
 
-void addTruck(trucks data)
+// Create
+void addTruck(trucks tru);
+void initializeTrucks(int pos);
+// Read
+void searchmenu();
+// Update
+void updateTruck(trucks tru, int pos);
+// Delete
+
+// Menu
+void mainmenu();
+
+//Archivos
+FILE *truckRegister;
+void saveTrucks();
+void readTrucks();
+int calcLastRegister(FILE *archivo);
+
+void addTruck(trucks tru)
 {
-	trucksData[lastReg] = data; //asigna el valor del objeto "data" en lastReg
-	lastReg++; //incremento de lastReg de 0 - 1+
+    trucksData[lastReg] = tru;
+    lastReg++;
+}
+
+void login()
+{
+    string password;
+    string username;
+    int login = 0;
+    do
+    {
+
+        cout << "Bienvenido a VehicleSift " << endl;
+        cout << "Escriba su usuario: " << endl;
+        cin >> username;
+        cout << "Escriba su contraseña: " << endl;
+        cin >> password;
+
+        if (username == "Admin" && password == "Tmolina")
+        {
+
+            cout << "Acceso concedidio" << endl;
+            login = 1;
+            system("pause");
+            system("cls");
+        }
+        else
+        {
+            cout << "Acceso denegado..." << endl;
+            cout << "*** Presione enter para volver a introdocir las credenciales ***" << endl;
+            system("pause");
+            system("cls");
+        }
+
+    } while (login != 1);
+}
+
+void mainmenu()
+{
+    trucks tru;
+    int actions;
+    readTrucks();
+    do
+    {
+        system("cls");
+        cout << "<<-- MENU DE ACCIONES -->>" << endl;
+        cout << "*** Que accion deseas realizar ***" << endl;
+        cout << "1. Buscar." << endl;
+        cout << "2. Añadir datos." << endl;
+        cout << "3. Modificar datos." << endl;
+        cout << "4. Eliminar datos." << endl;
+        cout << "5. Salir..." << endl;
+
+        cout << "Seleccione una opcion: ";
+        cin >> actions;
+
+        switch (actions)
+        {
+        case 1:
+            system("cls");
+            cout << "Ingresaste al buscador de camiones: " << endl;
+            searchmenu();
+
+            break;
+        case 2:
+            system("cls");
+            cout << "Ingresaste a la opcion 2: " << endl;
+            cout << "*** Ingresa los datos a añadir ***" << endl;
+
+            gotoxy(10, 5);
+            cout << "Codigo de vehiculo: ";
+            gotoxy(10, 6);
+            cout << "Tipo de vehiculo: ";
+            gotoxy(10, 7);
+            cout << "Marca: ";
+            gotoxy(10, 8);
+            cout << "Año de fabricacion: ";
+            gotoxy(10, 9);
+            cout << "Placa: ";
+            gotoxy(10, 10);
+            cout << "Refrigeracion: ";
+            gotoxy(10, 11);
+            cout << "Conductor: ";
+            gotoxy(40, 5);
+            cin>>tru.truckCode;
+            gotoxy(40, 6);
+
+            break;
+        case 3:
+            system("cls");
+            cout << "Ingresaste a la opcion 3: " << endl;
+            cout << "*** Ahora puedes modificar datos ***" << endl;
+            system("pause");
+            system("cls");
+
+            break;
+        case 4:
+            system("cls");
+            cout << "Ingresaste a la opcion 4: " << endl;
+            cout << "*** Ahora puedes eliminar datos ***" << endl;
+            system("pause");
+            system("cls");
+
+            break;
+        case 5:
+
+            break;
+
+        default:
+            cout << "Opcion Invalida. Seleccione una opcion del 1 al 5..." << endl;
+            break;
+        }
+    } while (actions != 5);
+    saveTrucks();
+}
+
+void searchmenu()
+{
+    int options;
+    do
+    {
+        cout << "MENU" << endl;
+        cout << "1. Marca del camion." << endl;
+        cout << "2. Modelo del camion." << endl;
+        cout << "3. Año de fabricacion." << endl;
+        cout << "4. Tipo de camion (Refrigerado o sin refrigeracion)." << endl;
+        cout << "5. Capacidad de carga (Toneladas)." << endl;
+        cout << "6. Codigo de camion." << endl;
+        cout << "7. Placa del camion." << endl;
+        cout << "8. Conductor del camion (con fecha de asignacion al camion)." << endl;
+        cout << "9. Salir..." << endl;
+
+        cout << "Selecione una opcion: ";
+        cin >> options;
+
+        switch (options)
+        {
+        case 1:
+            system("cls");
+            cout << "Ingresaste a:" << endl;
+            cout << "Marca del camion..." << endl;
+            system("pause");
+            system("cls");
+            break;
+        case 2:
+            cout << "Ingresaste a:" << endl;
+            cout << "Modelo del camion..." << endl;
+
+            break;
+        case 3:
+            cout << "Ingresaste a:" << endl;
+            cout << "Año de fabricacion..." << endl;
+
+            break;
+        case 4:
+            cout << "Ingresaste a:" << endl;
+            cout << "Tipo de camion..." << endl;
+
+            break;
+        case 5:
+            cout << "Ingresaste a:" << endl;
+            cout << "Capacidad de carga..." << endl;
+
+            break;
+        case 6:
+            cout << "Ingresaste a:" << endl;
+            cout << "Codigo del camion..." << endl;
+
+            break;
+        case 7:
+            cout << "Ingresaste a:" << endl;
+            cout << "Placa del camion..." << endl;
+
+            break;
+        case 8:
+            cout << "Ingresaste a:" << endl;
+            cout << "Conductor del camion..." << endl;
+
+            break;
+
+        case 9:
+            system("cls");
+            cout<<"Saliendo del menu de busqueda..."<<endl;
+            system("pause");
+            system("cls");
+            break;
+        default:
+            cout << "Opcion Invalida. Seleccione una opcion del 1 al 8..." << endl;
+            break;
+        }
+    } while (options != 9);
+}
+
+void updateTruck(trucks tru, int pos)
+{
+    trucksData[pos] = tru;
+}
+
+void initializeTrucks(int pos)
+{
+
+    strcpy(trucksData[pos].truckBrand, "");
+    strcpy(trucksData[pos].truckPlate, "");
+    strcpy(trucksData[pos].driver, "");
+    trucksData[pos].truckYear = 0;
+    strcpy(trucksData[pos].refr, "");
+    trucksData[pos].truckCode = 0; 
+    strcpy(trucksData[pos].vehicleType, "");
 
 }
 
-void showTruck(int pos)
+void saveTrucks()
 {
-	cout << "Marca del camión: " << trucksData[pos].truckBrand << endl;
-	cout << "Año del camión: " << trucksData[pos].truckYear << endl;
-	cout << "Refrigeración: " << trucksData[pos].refr << endl;
-	cout << "Tipo de Vehiculo: " << trucksData[pos].vehicleType << endl;
-	cout << "Codigo del camión: " << trucksData[pos].truckCode << endl;
-	cout << "Placa del camión: " << trucksData[pos].truckPlate << endl;
-	cout << "Conductor asignado: " << trucksData[pos].driver << endl;
-	cout << "Estado del camión: " <<  trucksData[pos].truckStatus << endl;
-
+    truckRegister = fopen("datos.bin", "wb");
+    fwrite(trucksData, sizeof(trucks), lastReg, truckRegister);
+    fclose(truckRegister);
 }
 
-trucks getTruck(int pos)
+void readTrucks()
 {
-	return trucksData[pos];
+    truckRegister = fopen("datos.bin", "rb");
+    if (truckRegister == NULL)
+    {
+        return;
+    }
+    lastReg = calcLastRegister(truckRegister);
+    fread(trucksData, sizeof(trucks), MAX, truckRegister);
+
+    fclose(truckRegister);
 }
 
-int isTruck(int code[], size_t size)
+int calcLastRegister(FILE *archivo)
 {
-	int position = -1;
-	for (int i = 0; i < lastReg; i++)
-	{
-		/*se multiplica "size * sizeof(int)" para determinar cantidad de bytes*/
-		if (memcmp(code, trucksData[i].truckCode, size * sizeof(int)) == 0) /*"memcmp" realiza una compararcion,verifica si el codigoDelCamion coincide con el codigo en la posicion "i"*/ 
-		{
-			position = i;
-			break;
-		}
-	}
-	return position;
+    int tam_archivo, num_trucks;
+    // Obtener el tamaño del archivo
+    fseek(archivo, 0, SEEK_END);
+    tam_archivo = ftell(archivo);
+    rewind(archivo);
 
-}
-
-void showTrucks()
-{
-	if (lastReg == 0)
-	{
-		cout << "No hay registro\n";
-		return;
-	}
-	for (int i = 0; i < lastReg; i++)
-	{
-		showTruck(i);
-	}
-}
-
-void uptadeTruck(trucks data, int pos)
-{
-	trucksData[pos] = data;
-}
-
-void deleteTruck (int pos)
-{
-	if (pos == lastReg)
-	{
-		cout << "No hay registro/n" << endl;
-		return;
-	}
-	for (int i = pos; i < lastReg - 1; i++)
-	{
-		trucksData[i] = trucksData[i + 1];
-	}
-	lastReg--;
-	startTruck(lastReg);
-
-}
-
-void startTruck(int pos)
-{
-	/*"memset" establece las cadnas de caracteres segun correspondan por que 
-	"strcpy" da error con los datos de truckYear*/
-    memset(trucksData[pos].truckBrand, 0, sizeof(trucksData[pos].truckBrand));
-    memset(trucksData[pos].truckYear, 0, sizeof(trucksData[pos].truckYear));
-    memset(trucksData[pos].refr, 0, sizeof(trucksData[pos].refr));
-    memset(trucksData[pos].vehicleType, 0, sizeof(trucksData[pos].vehicleType));
-    memset(trucksData[pos].truckCode, 0, sizeof(trucksData[pos].truckCode));
-    memset(trucksData[pos].truckPlate, 0, sizeof(trucksData[pos].truckPlate));
-    memset(trucksData[pos].driver, 0, sizeof(trucksData[pos].driver));
-    memset(trucksData[pos].truckStatus, 0, sizeof(trucksData[pos].truckStatus));
-
+    // Calcular el número de alumnos
+    num_trucks = tam_archivo / sizeof(trucks);
+    return num_trucks;
 }
