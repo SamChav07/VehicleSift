@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <cstdlib>
 #include "auxiliar.h"
 #include "structure.h"
 
@@ -52,15 +53,15 @@ void login()
 
             cout << "Acceso concedidio" << endl;
             login = 1;
-            system("pause");
-            system("cls");
+            system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
+            system("cls || clear")
         }
         else
         {
             cout << "Acceso denegado..." << endl;
             cout << "*** Presione enter para volver a introdocir las credenciales ***" << endl;
-            system("pause");
-            system("cls");
+            system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
+            system("cls || clear")
         }
 
     } while (login != 1);
@@ -73,7 +74,7 @@ void mainmenu()
     readTrucks();
     do
     {
-        system("cls");
+        system("cls || clear")
         cout << "<<-- MENU DE ACCIONES -->>" << endl;
         cout << "*** Que accion deseas realizar ***" << endl;
         cout << "1. Buscar." << endl;
@@ -88,49 +89,62 @@ void mainmenu()
         switch (actions)
         {
         case 1:
-            system("cls");
+            system("cls || clear")
             cout << "Ingresaste al buscador de camiones: " << endl;
             searchmenu();
 
             break;
         case 2:
-            system("cls");
+            system("cls || clear")
             cout << "Ingresaste a la opcion 2: " << endl;
             cout << "*** Ingresa los datos a añadir ***" << endl;
 
-            gotoxy(10, 5);
+            gotoxy(35, 5);
             cout << "Codigo de vehiculo: ";
-            gotoxy(10, 6);
+            gotoxy(35, 6);
             cout << "Tipo de vehiculo: ";
-            gotoxy(10, 7);
+            gotoxy(35, 7);
             cout << "Marca: ";
-            gotoxy(10, 8);
+            gotoxy(35, 8);
             cout << "Año de fabricacion: ";
-            gotoxy(10, 9);
+            gotoxy(35, 9);
             cout << "Placa: ";
-            gotoxy(10, 10);
+            gotoxy(35, 10);
             cout << "Refrigeracion: ";
-            gotoxy(10, 11);
+            gotoxy(35, 11);
             cout << "Conductor: ";
-            gotoxy(40, 5);
-            cin>>tru.truckCode;
-            gotoxy(40, 6);
+            gotoxy(55, 5);
+            cin >> tru.truckCode;
+            gotoxy(55, 6);
+            cin >> tru.vehicleType;
+            gotoxy(55, 6);
+            cin >> tru.truckBrand;
+            gotoxy(55, 7);
+            cin >> tru.truckYear;
+            gotoxy(55, 8);
+            cin >> tru.truckPlate;
+            gotoxy(55, 9);
+            cin >> tru.refr;
+            gotoxy(55, 10);
+            cin >> tru.driver;
 
             break;
         case 3:
-            system("cls");
+            system("cls || clear")
             cout << "Ingresaste a la opcion 3: " << endl;
             cout << "*** Ahora puedes modificar datos ***" << endl;
-            system("pause");
-            system("cls");
+            system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
+            
+            system("cls || clear");
 
             break;
         case 4:
-            system("cls");
+            system("cls || clear")
             cout << "Ingresaste a la opcion 4: " << endl;
             cout << "*** Ahora puedes eliminar datos ***" << endl;
-            system("pause");
-            system("cls");
+            system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
+            
+            system("cls || clear")
 
             break;
         case 5:
@@ -167,11 +181,11 @@ void searchmenu()
         switch (options)
         {
         case 1:
-            system("cls");
+            system("cls || clear")
             cout << "Ingresaste a:" << endl;
             cout << "Marca del camion..." << endl;
-            system("pause");
-            system("cls");
+            system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
+            system("cls || clear")
             break;
         case 2:
             cout << "Ingresaste a:" << endl;
@@ -210,10 +224,10 @@ void searchmenu()
             break;
 
         case 9:
-            system("cls");
+            system("cls || clear")
             cout<<"Saliendo del menu de busqueda..."<<endl;
-            system("pause");
-            system("cls");
+            system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
+            system("cls || clear")
             break;
         default:
             cout << "Opcion Invalida. Seleccione una opcion del 1 al 8..." << endl;
@@ -268,7 +282,7 @@ int calcLastRegister(FILE *archivo)
     tam_archivo = ftell(archivo);
     rewind(archivo);
 
-    // Calcular el número de alumnos
+    // Calcular el número de vehiculos
     num_trucks = tam_archivo / sizeof(trucks);
     return num_trucks;
 }
