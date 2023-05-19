@@ -15,7 +15,7 @@ void addRegister(trucks tru);
 void initializeTrucks(int pos);
 // Read
 void searchmenu();
-int searchTruckBrand(char brand[]);
+int searchTruckCode(char code[]);
 void showTrucks(int pos);
 void showTrucksData();
 trucks getTruck(int pos);
@@ -107,7 +107,7 @@ void mainmenu()
 {
     trucks tru;
     int actions, pos, resp;
-    char truckBrand[15];
+    char truckCode[15];
     readTrucks();
     do
     {
@@ -217,8 +217,29 @@ void mainmenu()
             system("cls || clear");
             cout << "Ingresaste a la opcion 4: " << endl;
             cout << "*** Ahora puedes eliminar datos ***" << endl;
+            system("cls||clear");
+            if (lastReg == 0)
+            {
+                cout << "No hay nada que eliminar\n";
+                break;
+            }
+            cout << "Escribe el Code del vehiculo: ";
+            cin >> truckCode;
+            pos = searchTruckCode(char code[]);
+            tru = getTruck (int pos);
+            cout << "¿Realmente deseas eliminar el estudiante: " << tru.truckBrand << " " << tru.truckPlate << "?\n";
+            cout << "Escribe 1 para SI o 2 para NO: ";
+            cin >> resp;
+            if (resp == 1)
+            {
+                deleteRegister(int pos);
+                cout << "Registro Eliminado... \n";
+            }
+            else
+            {
+                cout << "Operaciòn cancelada.... \n";
+            }
             system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
-            
             system("cls || clear");
 
             break;
@@ -318,12 +339,12 @@ trucks getTruck(int pos)
 return trucksData[pos];
 }
 
-int searchTruckBrand(char brand[])
+int searchTruckCode(char code[])
 {
     int posicion = 0;
     for (int i = 0; i < lastReg; i++)
     {
-        if (strcmp(brand, trucksData[i].truckBrand) == 0)
+        if (strcmp(code, trucksData[i].truckCode) == 0)
         {
             posicion = i;
             break;
