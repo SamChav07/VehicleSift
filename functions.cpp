@@ -90,14 +90,14 @@ void login()
             cout << "Acceso concedidio" << endl;
             login = 1;
             system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
-            system("cls || clear")
+            system("cls || clear");
         }
         else
         {
             cout << "Acceso denegado..." << endl;
             cout << "*** Presione enter para volver a introdocir las credenciales ***" << endl;
             system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
-            system("cls || clear")
+            system("cls || clear");
         }
 
     } while (login != 1);
@@ -111,7 +111,7 @@ void mainmenu()
     readTrucks();
     do
     {
-        system("cls || clear")
+        system("cls || clear");
         cout << "<<-- MENU DE ACCIONES -->>" << endl;
         cout << "*** Que accion deseas realizar ***" << endl;
         cout << "1. Buscar." << endl;
@@ -126,13 +126,13 @@ void mainmenu()
         switch (actions)
         {
         case 1:
-            system("cls || clear")
+            system("cls || clear");
             cout << "Ingresaste al buscador de camiones: " << endl;
             searchmenu();
 
             break;
         case 2:
-            system("cls || clear")
+            system("cls || clear");
             cout << "Ingresaste a la opcion 2: " << endl;
             cout << "*** Ingresa los datos a añadir ***" << endl;
             gotoxy(35, 5);
@@ -210,16 +210,16 @@ void mainmenu()
             updateTruck(tru, pos);
             system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
             
-            system("cls || clear");
+            system("cls || clear");;
 
             break;
         case 4:
-            system("cls || clear")
+            system("cls || clear");
             cout << "Ingresaste a la opcion 4: " << endl;
             cout << "*** Ahora puedes eliminar datos ***" << endl;
             system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
             
-            system("cls || clear")
+            system("cls || clear");
 
             break;
         case 5:
@@ -256,11 +256,11 @@ void searchmenu()
         switch (options)
         {
         case 1:
-            system("cls || clear")
+            system("cls || clear");
             cout << "Ingresaste a:" << endl;
             cout << "Marca del camion..." << endl;
             system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
-            system("cls || clear")
+            system("cls || clear");
             break;
         case 2:
             cout << "Ingresaste a:" << endl;
@@ -300,10 +300,10 @@ void searchmenu()
             break;
 
         case 9:
-            system("cls || clear")
+            system("cls || clear");
             cout << "Saliendo del menu de busqueda..." << endl;
             system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
-            system("cls || clear")
+            system("cls || clear");
             break;
         default:
             cout << "Opcion Invalida. Seleccione una opcion del 1 al 8..." << endl;
