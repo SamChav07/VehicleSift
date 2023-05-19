@@ -169,7 +169,7 @@ void mainmenu()
             break;
         case 3:
             
-             system("cls||clear || clear")
+            system("cls||clear || clear");
             cout << "Escribe el ID a buscar: ";
             scanf(" %[^\n]", truckBrand);
             pos = searchTruckBrand(truckBrand);
@@ -244,11 +244,12 @@ void searchmenu()
         cout << "2. Modelo del camion." << endl;
         cout << "3. Año de fabricacion." << endl;
         cout << "4. Tipo de camion (Refrigerado o sin refrigeracion)." << endl;
-        cout << "5. Capacidad de carga (Toneladas)." << endl;
-        cout << "6. Placa del camion." << endl;
-        cout << "7. Conductor del camion (con fecha de asignacion al camion)." << endl;
-        cout << "8. Mostrar todos los camiones"<<endl;
-        cout << "9. Salir..." << endl;
+        cout << "5. Codigo del camión." << endl;
+        cout << "6. Capacidad de carga (Toneladas)." << endl;
+        cout << "7. Placa del camion." << endl;
+        cout << "8. Conductor del camion (con fecha de asignacion al camion)." << endl;
+        cout << "9. Mostrar todos los camiones"<<endl;
+        cout << "10. Salir..." << endl;
 
         cout << "Selecione una opcion: ";
         cin >> options;
@@ -309,7 +310,7 @@ void searchmenu()
             cout << "Opcion Invalida. Seleccione una opcion del 1 al 8..." << endl;
             break;
         }
-    } while (options != 9);
+    } while (options != 10);
 }
 
 trucks getTruck(int pos)
