@@ -310,7 +310,7 @@ void mainmenu()
             gotoxy(35, 11);
             scanf(" %[^\n]", currentTruck.driverInfo.driverName); // currentTruck.driverInfo.driverLastname);
             addTruckRegister(currentTruck);
-            system("pause");
+            system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
 
             break;
         case 2:
@@ -355,7 +355,7 @@ void mainmenu()
             cout << "Registro actualizado...\n";
             system("cls || clear");
             updateTruck(currentTruck, pos);
-            system("pause");
+            system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
 
             break;
         case 3:
@@ -382,7 +382,7 @@ void mainmenu()
             {
                 cout << "Operacion cancelada.... \n";
             }
-            system("pause");
+            system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
             break;
 
         case 4:
@@ -395,7 +395,7 @@ void mainmenu()
         case 5:
             system("cls||clear");
             showTrucksRegister();
-            system("pause");
+            system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
 
             break;
 
