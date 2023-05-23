@@ -93,16 +93,27 @@ void searchmenu() //TRABAJAR EN ESTA FUNCION, FALTA UN GOTOXY PARA EL MENU
     do                        //faltan funciones para cada parametro de busqueda, tomen como referencia la funcion "searchTruckCode"
     {
         system("cls || clear");
+        gotoxy (10, 4);
         cout << "** Menu de busqueda **" << endl;
+        gotoxy(10, 6);
         cout << "1. Codigo de vehiculo." << endl;
+        gotoxy(10, 7);
         cout << "2. Placa de vehiculo." << endl;
+        gotoxy(10, 8);
         cout << "3. Marca de vehiculo." << endl;
+        gotoxy(10, 9);
         cout << "4. Año de vehiculo." << endl;
+        gotoxy(10, 10);
         cout << "5. Tipo de vehiculo." << endl;
+        gotoxy(10, 11);
         cout << "6. Refrigeracion." << endl;
+        gotoxy(10, 12);
         cout << "7. Conductor." << endl;
+        gotoxy(10, 13);
         cout << "8. Mostrar todos los camiones" << endl;
+        gotoxy(10, 14);
         cout << "9. Salir..." << endl;
+        gotoxy(10, 15);
         cout << "Selecione una opcion: ";
         cin >> options;
 
