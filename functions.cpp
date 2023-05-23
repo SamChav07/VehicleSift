@@ -13,18 +13,18 @@ int lastReg = 0;
 void login();
 
 // Create
-void addRegister(trucks tru);
+void addTruckRegister(trucks currentTruck);
 void initializeTrucks(int pos);
 // Read
 void searchmenu();
 int searchTruckCode(char code[]);
-void showTrucks(int pos);
-void showTrucksData();
+void showTruck(int pos);
+void showTrucksRegister();
 trucks getTruck(int pos);
 // Update
-void updateTruck(trucks tru, int pos);
+void updateTruck(trucks currentTruck, int pos);
 // Delete
-void deleteRegister(int pos);
+void deleteTruck(int pos);
 // Menu
 void mainmenu();
 
@@ -67,41 +67,42 @@ void login()
     } while (login != 1);
 }
 
-void addRegister(trucks tru)
+void addTruckRegister(trucks currentTruck)
 {
-    trucksData[lastReg] = tru;
+    trucksData[lastReg] = currentTruck;
     lastReg++;
 }
 
 void initializeTrucks(int pos)
 {
 
-    strcpy(trucksData[pos].truckBrand, "");
+    strcpy(trucksData[pos].truckCode, "");
     strcpy(trucksData[pos].truckPlate, "");
-    strcpy(trucksData[pos].driver, "");
+    strcpy(trucksData[pos].truckBrand, "");
     trucksData[pos].truckYear = 0;
-    strcpy(trucksData[pos].refr, "");
-    trucksData[pos].truckCode = 0;
     strcpy(trucksData[pos].vehicleType, "");
+    strcpy(trucksData[pos].refr, "");
+    strcpy(trucksData[pos].driverInfo.driverName, "");
+    strcpy(trucksData[pos].driverInfo.driverLastname, "");
 }
 
-void searchmenu()
+void searchmenu() //TRABAJAR EN ESTA FUNCION, FALTA UN GOTOXY PARA EL MENU
 {
-    int options;
-    do
+    int options, pos;
+    char enteredTruckCode[10];//crear variables llamadas entered"lo que se va a buscar"
+    do                        //faltan funciones para cada parametro de busqueda, tomen como referencia la funcion "searchTruckCode"
     {
-        cout << "MENU" << endl;
-        cout << "1. Marca del camion." << endl;
-        cout << "2. Modelo del camion." << endl;
-        cout << "3. Año de fabricacion." << endl;
-        cout << "4. Tipo de camion (Refrigerado o sin refrigeracion)." << endl;
-        cout << "5. Codigo del camión." << endl;
-        cout << "6. Capacidad de carga (Toneladas)." << endl;
-        cout << "7. Placa del camion." << endl;
-        cout << "8. Conductor del camion (con fecha de asignacion al camion)." << endl;
-        cout << "9. Mostrar todos los camiones"<<endl;
-        cout << "10. Salir..." << endl;
-
+        system("cls || clear");
+        cout << "** Menu de busqueda **" << endl;
+        cout << "1. Codigo de vehiculo." << endl;
+        cout << "2. Placa de vehiculo." << endl;
+        cout << "3. Marca de vehiculo." << endl;
+        cout << "4. Año de vehiculo." << endl;
+        cout << "5. Tipo de vehiculo." << endl;
+        cout << "6. Refrigeracion." << endl;
+        cout << "7. Conductor." << endl;
+        cout << "8. Mostrar todos los camiones" << endl;
+        cout << "9. Salir..." << endl;
         cout << "Selecione una opcion: ";
         cin >> options;
 
@@ -109,8 +110,20 @@ void searchmenu()
         {
         case 1:
             system("cls || clear");
-            cout << "Ingresaste a:" << endl;
-            cout << "Marca del camion..." << endl;
+            cout << "Buscar por codigo de vehiculo:" << endl;
+            cout << "Escribe el codigo a buscar: ";
+            scanf(" %[^\n]", enteredTruckCode); //asi se deberian ver todas las funciones cuando sean implementadas
+            pos = searchTruckCode(enteredTruckCode);
+            if (pos!=-1)
+            {
+                showTruck(pos);
+            }
+            else
+            {
+                cout<<"Registro inexistente" << endl;
+            }
+            
+
             system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
             system("cls || clear");
             break;
@@ -145,10 +158,10 @@ void searchmenu()
 
             break;
         case 8:
-            cout<< "Visualizando todos los datos..."<<endl;
-            showTrucksData();
-            system ("pause");
-            
+            cout << "Visualizando todos los datos..." << endl;
+            showTrucksRegister();
+            system("pause");
+
             break;
 
         case 9:
@@ -161,65 +174,66 @@ void searchmenu()
             cout << "Opcion Invalida. Seleccione una opcion del 1 al 8..." << endl;
             break;
         }
-    } while (options != 10);
+    } while (options != 9);
 }
 
-int searchTruckCode(const char code[])
+int searchTruckCode(char enteredTruckCode[])
 {
-    int posicion = -1;
+    int position = -1;
     for (int i = 0; i < lastReg; i++)
     {
-        if (strcmp(code, trucksData[i].truckCode) == 0)
+        if (strcmp(enteredTruckCode, trucksData[i].truckCode) == 0)
         {
-            posicion = i;
+            position = i;
             break;
         }
     }
- return posicion;
+    return position;
 }
 
-void showTrucks(int pos)
+void showTruck(int pos)
 {
+    cout << endl;
     cout << "Codigo de vehiculo: " << trucksData[pos].truckCode << endl;
+    cout << "Placa de vehiculo: " << trucksData[pos].truckPlate << endl;
+    cout << "Marca de vehiculo: " << trucksData[pos].truckBrand << endl;
+    cout << "Año de vehiculo: " << trucksData[pos].truckYear << endl;
     cout << "Tipo de vehiculo: " << trucksData[pos].vehicleType << endl;
-    cout << "Marca: " << trucksData[pos].truckBrand << endl;
-    cout << "Año de fabricacion: " << trucksData[pos].truckYear << endl;
-    cout << "Placa: " << trucksData[pos].truckPlate << endl;
     cout << "Refrigeracion: " << trucksData[pos].refr << endl;
-    cout << "Conductor: " << trucksData[pos].driver << endl;
+    cout << "Conductor: " << trucksData[pos].driverInfo.driverName << " " << trucksData[pos].driverInfo.driverLastname << endl;
 }
 
-void showTrucksData()
+void showTrucksRegister()
 {
-        system("cls||clear");
-        if (lastReg == 0)
-        {
-            cout << "No hay registros" << endl;
-            return;
-        }
-        for (int i = 0; i < lastReg; i++)
-        {
-            cout << "=========================" << endl;
-            showTrucks(i);
-        }
-        cout << "Ultimo registro..." << endl;
+    system("cls||clear");
+    if (lastReg == 0)
+    {
+        cout << "No hay registros" << endl;
+        return;
+    }
+    for (int i = 0; i < lastReg; i++)
+    {
+        cout << "=========================" << endl;
+        showTruck(i);
+    }
+    cout << "Ultimo registro..." << endl;
 }
 
 trucks getTruck(int pos)
 {
-return trucksData[pos];
+    return trucksData[pos];
 }
 
-void updateTruck(trucks tru, int pos)
+void updateTruck(trucks currentTruck, int pos)
 {
-    trucksData[pos] = tru;
+    trucksData[pos] = currentTruck;
 }
 
-void deleteRegister(int pos)
+void deleteTruck(int pos)
 {
     if (pos == lastReg)
     {
-        cout << "No hay registros \n";
+        cout << "No hay registros " << endl;
         return;
     }
     for (int i = pos; i < lastReg - 1; i++)
@@ -232,153 +246,167 @@ void deleteRegister(int pos)
 
 void mainmenu()
 {
-    trucks tru;
+    trucks currentTruck;
     int actions, pos, resp;
-    char truckCode[15];
+    char enteredTruckCode[10];
     readTrucks();
     do
     {
         system("cls || clear");
-        cout << "<<-- MENU DE ACCIONES -->>" << endl;
-        cout << "*** Que accion deseas realizar ***" << endl;
-        cout << "1. Buscar." << endl;
-        cout << "2. Añadir datos." << endl;
-        cout << "3. Modificar datos." << endl;
-        cout << "4. Eliminar datos." << endl;
-        cout << "5. Salir..." << endl;
-
-        cout << "Seleccione una opcion: ";
+        gotoxy(10, 5);
+        cout << " Bienvenido a VehicleSift" << endl;
+        gotoxy(15, 6);
+        cout << "Cantidad de registros: " << lastReg << endl;
+        gotoxy(10, 9);
+        cout << " 1. Agregar Vehiculo " << endl;
+        gotoxy(10, 10);
+        cout << " 2. Modificar Vehiculo " << endl;
+        gotoxy(10, 11);
+        cout << " 3. Eliminar Vehiculo " << endl;
+        gotoxy(10, 12);
+        cout << " 4. Buscar Vehiculo " << endl;
+        gotoxy(10, 13);
+        cout << " 5. Mostrar todos los Vehiculos " << endl;
+        gotoxy(10, 14);
+        cout << " 6. Salir " << endl;
+        gotoxy(10, 15);
+        cout << " Digite la opcion: ";
+        gotoxy(29, 15);
         cin >> actions;
 
         switch (actions)
         {
         case 1:
             system("cls || clear");
-            cout << "Ingresaste al buscador de camiones: " << endl;
-            searchmenu();
+            cout << "Ingresaste a la opcion 2: " << endl;
+            cout << "*** Ingresa los datos a añadir ***" << endl;
+            system("cls || clear");
+            gotoxy(10, 5);
+            cout << "Codigo de vehiculo:" << endl;
+            gotoxy(10, 6);
+            cout << "Placa de vehiculo: " << endl;
+            gotoxy(10, 7);
+            cout << "Marca de vehiculo: " << endl;
+            gotoxy(10, 8);
+            cout << "Año de vehiculo: " << endl;
+            gotoxy(10, 9);
+            cout << "Tipo de vehiculo: " << endl;
+            gotoxy(10, 10);
+            cout << "Refrigeracion: " << endl;
+            gotoxy(10, 11);
+            cout << "Conductor asignado: " << endl;
+            gotoxy(35, 5);
+            scanf(" %[^\n]", currentTruck.truckCode);
+            gotoxy(35, 6);
+            scanf(" %[^\n]", currentTruck.truckPlate);
+            gotoxy(35, 7);
+            scanf(" %[^\n]", currentTruck.truckBrand);
+            gotoxy(35, 8);
+            cin >> currentTruck.truckYear;
+            gotoxy(35, 9);
+            scanf(" %[^\n]", currentTruck.vehicleType);
+            gotoxy(35, 10);
+            scanf(" %[^\n]", currentTruck.refr);
+            gotoxy(35, 11);
+            scanf(" %[^\n]", currentTruck.driverInfo.driverName); // currentTruck.driverInfo.driverLastname);
+            addTruckRegister(currentTruck);
+            system("pause");
 
             break;
         case 2:
-            system("cls || clear");
-            cout << "Ingresaste a la opcion 2: " << endl;
-            cout << "*** Ingresa los datos a añadir ***" << endl;
-            gotoxy(35, 5);
-            cout << "Codigo de vehiculo: ";
-            gotoxy(35, 6);
+
+            system("cls||clear");
+            cout << "Escribe el codigo a buscar: ";
+            scanf(" %[^\n]", enteredTruckCode);
+            pos = searchTruckCode(enteredTruckCode);
+            showTruck(pos);
+            gotoxy(50, 0);
+            cout << "Datos a modificar " << endl;
+            gotoxy(50, 1);
+            cout << "Codigo de vehiculo:";
+            gotoxy(50, 2);
+            cout << "Placa de vehiculo: ";
+            gotoxy(50, 3);
+            cout << "Marca de vehiculo: ";
+            gotoxy(50, 4);
+            cout << "Año de vehiculo: ";
+            gotoxy(50, 5);
             cout << "Tipo de vehiculo: ";
-            gotoxy(35, 7);
-            cout << "Marca: ";
-            gotoxy(35, 8);
-            cout << "Año de fabricacion: ";
-            gotoxy(35, 9);
-            cout << "Placa: ";
-            gotoxy(35, 10);
+            gotoxy(50, 6);
             cout << "Refrigeracion: ";
-            gotoxy(35, 11);
-            cout << "Conductor: ";
-            gotoxy(40, 5);
-            cin >> tru.truckCode;
-            gotoxy(40, 6);
-            scanf(" %[^\n]", tru.vehicleType);
-            gotoxy(40, 7);
-            scanf(" %[^\n]", tru.truckBrand);
-            gotoxy(40, 8);
-            cin >> tru.truckYear;
-            gotoxy(40, 9);
-            scanf(" %[^\n]", tru.truckPlate);
-            gotoxy(40, 10);
-            scanf(" %[^\n]", tru.refr);
-            gotoxy(40, 11);
-            scanf(" %[^\n]", tru.driver);
-            addRegister(tru);
+            gotoxy(50, 7);
+            cout << "Conductor asignado: ";
+            gotoxy(0, 0);
+            cout << "Datos actuales:                               ";
+            gotoxy(70, 1);
+            scanf(" %[^\n]", currentTruck.truckCode);
+            gotoxy(68, 2);
+            scanf(" %[^\n]", currentTruck.truckPlate);
+            gotoxy(57, 3);
+            scanf(" %[^\n]", currentTruck.truckBrand);
+            gotoxy(72, 4);
+            cin >> currentTruck.truckYear;
+            gotoxy(57, 5);
+            scanf(" %[^\n]", currentTruck.vehicleType);
+            gotoxy(64, 6);
+            scanf(" %[^\n]", currentTruck.refr);
+            gotoxy(61, 7);
+            scanf(" %[^\n]", currentTruck.driverInfo.driverName); // currentTruck.driverInfo.driverLastname);
+            cout << "Registro actualizado...\n";
+            system("cls || clear");
+            updateTruck(currentTruck, pos);
             system("pause");
 
             break;
         case 3:
-            
-            system("cls||clear || clear");
-            cout << "Escribe el ID a buscar: ";
-            scanf(" %[^\n]", truckCode);
-            pos = searchTruckCode(truckCode);
-            showTrucks(pos);
-            gotoxy(50, 0);
-            cout << "Datos a modificar "<<endl;
-            gotoxy(50,1);
-            cout << "Codigo de vehiculo: ";
-            gotoxy(50, 2);
-            cout << "Tipo de vehiculo: ";
-            gotoxy(50, 3);
-            cout << "Marca: ";
-            gotoxy(50, 4);
-            cout << "Año de fabricacion: ";
-            gotoxy(50, 5);
-            cout << "Placa: ";
-            gotoxy(50, 6);
-            cout << "Refrigeracion: ";
-            gotoxy(50, 7);
-            cout << "Conductor: ";
-            gotoxy(0,0);
-            cout<< "DATOS ACTUALES:                               ";
-            gotoxy(70, 1);
-            cin >> tru.truckCode;
-            gotoxy(68, 2);
-            scanf(" %[^\n]", tru.vehicleType);
-            gotoxy(57, 3);
-            scanf(" %[^\n]", tru.truckBrand);
-            gotoxy(72, 4);
-            cin >> tru.truckYear;
-            gotoxy(57, 5);
-            scanf(" %[^\n]", tru.truckPlate);
-            gotoxy(64, 6);
-            scanf(" %[^\n]", tru.refr);
-            gotoxy(61, 7);
-            scanf(" %[^\n]", tru.driver);
-            cout << "Registro actualizado...\n";
-            updateTruck(tru, pos);
-            system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
-            
-            system("cls || clear");;
 
-            break;
-        case 4:
-            system("cls || clear");
-            cout << "Ingresaste a la opcion 4: " << endl;
-            cout << "*** Ahora puedes eliminar datos ***" << endl;
             system("cls||clear");
             if (lastReg == 0)
             {
                 cout << "No hay nada que eliminar\n";
                 break;
             }
-            cout << "Escribe el Code del vehiculo: ";
-            cin >> truckCode;
-            pos = searchTruckCode( truckCode );
-            tru = getTruck ( pos );
-            cout << "¿Realmente deseas eliminar el estudiante: " << tru.truckBrand << " " << tru.truckPlate << "?\n";
+            cout << "Escribe el ID del estudiante: ";
+            cin >> enteredTruckCode;
+            pos = searchTruckCode(enteredTruckCode);
+            currentTruck = getTruck(pos);
+            cout << "¿Realmente deseas eliminar el vehiculo: " << currentTruck.truckCode << "?\n";
             cout << "Escribe 1 para SI o 2 para NO: ";
             cin >> resp;
             if (resp == 1)
             {
-                deleteRegister( pos );
+                deleteTruck(pos);
                 cout << "Registro Eliminado... \n";
             }
             else
             {
-                cout << "Operaciòn cancelada.... \n";
+                cout << "Operacion cancelada.... \n";
             }
-            system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
+            system("pause");
+            break;
+
+        case 4:
+
             system("cls || clear");
+            cout << "Ingresaste al buscador de camiones: " << endl;
+            searchmenu();
 
             break;
         case 5:
+            system("cls||clear");
+            showTrucksRegister();
+            system("pause");
 
             break;
 
+        case 6:
+
+            break;
         default:
             cout << "Opcion Invalida. Seleccione una opcion del 1 al 5..." << endl;
             break;
         }
-    } while (actions != 5);
+    } while (actions != 6);
     saveTrucks();
 }
 

@@ -13,19 +13,6 @@ typedef struct
 
 typedef struct 
 {
-    char truckBrand[30];
-    int truckYear;
-    char refr[2];
-    char vehicleType[30];
-    int truckCode;
-    char truckPlate[30];
-    char driver[30];
-
-}trucks;
-
-typedef struct 
-{
-    
     char driverName[30];
     char driverLastname[30];
     char id [10];
@@ -33,6 +20,18 @@ typedef struct
     date assignDate;
 
 }drivers;
+
+typedef struct 
+{
+    char truckCode[10];
+    char truckPlate[30];
+    char truckBrand[30];
+    int truckYear;
+    char vehicleType[30];
+    char refr[4];
+    drivers driverInfo;
+
+}trucks;
 
 trucks trucksData[MAX];
 drivers drivesrsData[MAX];
