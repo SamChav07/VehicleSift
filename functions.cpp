@@ -106,14 +106,12 @@ void searchmenu() //TRABAJAR EN ESTA FUNCION, FALTA UN GOTOXY PARA EL MENU
         gotoxy(10, 10);
         cout << "5. Tipo de vehiculo." << endl;
         gotoxy(10, 11);
-        cout << "6. Refrigeracion." << endl;
+        cout << "6. Conductor." << endl;
         gotoxy(10, 12);
-        cout << "7. Conductor." << endl;
+        cout << "7. Mostrar todos los camiones" << endl;
         gotoxy(10, 13);
-        cout << "8. Mostrar todos los camiones" << endl;
+        cout << "8. Salir..." << endl;
         gotoxy(10, 14);
-        cout << "9. Salir..." << endl;
-        gotoxy(10, 15);
         cout << "Selecione una opcion: ";
         cin >> options;
 
@@ -156,11 +154,6 @@ void searchmenu() //TRABAJAR EN ESTA FUNCION, FALTA UN GOTOXY PARA EL MENU
         case 5:
             cout << "Ingresaste a:" << endl;
             cout << "Codigo del camion..." << endl;
-
-            break;
-        case 6:
-            cout << "Ingresaste a:" << endl;
-            cout << "Placa del camion..." << endl;
 
             break;
         case 7:
