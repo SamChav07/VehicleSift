@@ -156,19 +156,19 @@ void searchmenu() //TRABAJAR EN ESTA FUNCION, FALTA UN GOTOXY PARA EL MENU
             cout << "Codigo del camion..." << endl;
 
             break;
-        case 7:
+        case 6:
             cout << "Ingresaste a:" << endl;
             cout << "Conductor del camion..." << endl;
 
             break;
-        case 8:
+        case 7:
             cout << "Visualizando todos los datos..." << endl;
             showTrucksRegister();
             system("pause");
 
             break;
 
-        case 9:
+        case 8:
             system("cls || clear");
             cout << "Saliendo del menu de busqueda..." << endl;
             system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
