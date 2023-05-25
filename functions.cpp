@@ -8,6 +8,7 @@
 
 using namespace std;
 
+int lastDriverReg = 0;
 int lastReg = 0;
 // login
 void login();
@@ -32,6 +33,21 @@ void updateTruck(trucks currentTruck, int pos);
 void deleteTruck(int pos);
 // Menu
 void mainmenu();
+
+// Seccion conductores
+void addDriverRegister(drivers currentDriver);
+void initializeDriver(int driverPos);
+
+void showDriverData(int driverPos);
+void showDriversRegister();
+drivers getDriver();
+void updateDrivers(drivers currentDriver, int driverPos);
+void deleteDriver(int driverPos);
+// Archivos para conductores
+FILE *driversRegister;
+void saveDrivers();
+void readDrivers();
+int calcLastDriversRegister(FILE *archivoConductores);
 
 // Archivos
 FILE *truckRegister;
@@ -479,36 +495,36 @@ void mainmenu()
             pos = searchTruckCode(enteredTruckCode);
             showTruck(pos);
             gotoxy(50, 0);
-            cout << "Datos a modificar " << endl;
-            gotoxy(50, 1);
-            cout << "Codigo de vehiculo:";
+            cout << "Datos a modificar: " << endl;
             gotoxy(50, 2);
-            cout << "Placa de vehiculo: ";
+            cout << "Codigo de vehiculo:";
             gotoxy(50, 3);
-            cout << "Marca de vehiculo: ";
+            cout << "Placa de vehiculo: ";
             gotoxy(50, 4);
-            cout << "Año de vehiculo: ";
+            cout << "Marca de vehiculo: ";
             gotoxy(50, 5);
-            cout << "Tipo de vehiculo: ";
+            cout << "Año de vehiculo: ";
             gotoxy(50, 6);
-            cout << "Refrigeracion: ";
+            cout << "Tipo de vehiculo: ";
             gotoxy(50, 7);
+            cout << "Refrigeracion: ";
+            gotoxy(50, 8);
             cout << "Conductor asignado: ";
             gotoxy(0, 0);
             cout << "Datos actuales:                               ";
-            gotoxy(70, 1);
+            gotoxy(70, 2);
             scanf(" %[^\n]", currentTruck.truckCode);
-            gotoxy(68, 2);
+            gotoxy(68, 3);
             scanf(" %[^\n]", currentTruck.truckPlate);
-            gotoxy(57, 3);
+            gotoxy(57, 4);
             scanf(" %[^\n]", currentTruck.truckBrand);
-            gotoxy(72, 4);
+            gotoxy(72, 5);
             cin >> currentTruck.truckYear;
-            gotoxy(57, 5);
+            gotoxy(57, 6);
             scanf(" %[^\n]", currentTruck.vehicleType);
-            gotoxy(64, 6);
+            gotoxy(64, 7);
             scanf(" %[^\n]", currentTruck.refr);
-            gotoxy(61, 7);
+            gotoxy(61, 8);
             scanf(" %[^\n]", currentTruck.driverInfo.driverName); // currentTruck.driverInfo.driverLastname);
             cout << "Registro actualizado...\n";
             system("cls || clear");
@@ -599,4 +615,115 @@ int calcLastRegister(FILE *archivo)
     // Calcular el número de vehiculos
     num_trucks = tam_archivo / sizeof(trucks);
     return num_trucks;
+}
+
+// Seccion de conductores
+
+void addDriverRegister(drivers currentDriver)
+{
+    driversData[lastDriverReg] = currentDriver;
+    lastDriverReg++;
+}
+
+void initializeDriver(int driverPos)
+{
+
+    strcpy(driversData[driverPos].driverName, " ");
+    strcpy(driversData[driverPos].id, " ");
+    strcpy(driversData[driverPos].driverStatus, " ");
+    driversData[driverPos].assignDate.day = 0;
+    driversData[driverPos].assignDate.month = 0;
+    driversData[driverPos].assignDate.year = 0;
+}
+
+void showDriverData(int driverPos)
+{
+
+    cout << "Nombre del conductor: " << driversData[driverPos].driverName << endl;
+    cout << "ID del conductor: " << driversData[driverPos].id << endl;
+    cout << "Estado del conductor: " << driversData[driverPos].driverStatus << endl;
+    cout << "Fecha de asignacion: " << driversData[driverPos].assignDate.day << "/" << driversData[driverPos].assignDate.month << "/" << driversData[driverPos].assignDate.year << endl;
+}
+
+void showDriversRegister()
+{
+    system("cls||clear");
+    if (lastDriverReg == 0)
+    {
+        cout << "No hay registros" << endl;
+        return;
+    }
+    for (int i = 0; i < lastDriverReg; i++)
+    {
+        cout << "=========================" << endl;
+        showDriverData(i);
+    }
+    cout << "Ultimo registro..." << endl;
+}
+
+drivers getDriver(int driverPos)
+{
+    return driversData[driverPos];
+}
+
+void updateDrivers(drivers currentDriver, int driverPos)
+{
+
+    driversData[driverPos] = currentDriver;
+
+}
+
+void deleteDriver(int driverPos)
+{
+
+    if (driverPos == lastDriverReg)
+    {
+        cout << "No hay registros " << endl;
+        return;
+    }
+    for (int i = driverPos; i < lastDriverReg - 1; i++)
+    {
+        trucksData[i] = trucksData[i + 1];
+    }
+    lastDriverReg--;
+    initializeDriver(lastDriverReg);
+
+}
+
+void saveDrivers()
+{
+
+    driversRegister = fopen("datosConductores.bin", "wb");
+    fwrite(driversData, sizeof(drivers), lastDriverReg, driversRegister);
+    fclose(driversRegister);
+
+}
+
+void readDrivers()
+{
+
+    driversRegister = fopen("datosConductores.bin", "rb");
+    if (driversRegister == NULL)
+    {
+        return;
+    }
+    lastDriverReg = calcLastDriversRegister(driversRegister);
+    fread(driversData, sizeof(drivers), MAX, driversRegister);
+
+    fclose(driversRegister);
+
+}
+
+int calcLastDriversRegister(FILE *archivoConductores)
+{
+
+int tam_archivoConductores, num_drivers;
+    // Obtener el tamaño del archivo
+    fseek(archivoConductores, 0, SEEK_END);
+    tam_archivoConductores = ftell(archivoConductores);
+    rewind(archivoConductores);
+
+    // Calcular el número de vehiculos
+    num_drivers = tam_archivoConductores / sizeof(trucks);
+    return num_drivers;
 }

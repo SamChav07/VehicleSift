@@ -34,5 +34,5 @@ typedef struct
 }trucks;
 
 trucks trucksData[MAX];
-drivers drivesrsData[MAX];
+drivers driversData[MAX];
 
