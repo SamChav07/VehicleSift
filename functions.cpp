@@ -396,7 +396,7 @@ void deleteTruck(int pos)
     }
     for (int i = pos; i < lastReg - 1; i++)
     {
-        truckRegister[i] = truckRegister[i + 1];
+        trucksData[i] = trucksData[i + 1];
     }
     lastReg--;
     initializeTrucks(lastReg);
