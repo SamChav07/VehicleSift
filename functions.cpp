@@ -18,6 +18,11 @@ void initializeTrucks(int pos);
 // Read
 void searchmenu();
 int searchTruckCode(char code[]);
+int searchTruckPlate(char plate[]);
+int searchTruckBrand(char brand[]);
+int searchTruckYear(int year);
+int searchVehicleType(char type[]);
+int searchRefr(char refr[]);
 void showTruck(int pos);
 void showTrucksRegister();
 trucks getTruck(int pos);
@@ -89,8 +94,13 @@ void initializeTrucks(int pos)
 void searchmenu() //TRABAJAR EN ESTA FUNCION, FALTA UN GOTOXY PARA EL MENU
 {
     int options, pos;
-    char enteredTruckCode[10];//crear variables llamadas entered"lo que se va a buscar"
-    do                        //faltan funciones para cada parametro de busqueda, tomen como referencia la funcion "searchTruckCode"
+    char enteredTruckCode[10];
+    char enteredTruckPlate[30];
+    char enteredTruckBrand[30];
+    int enteredTruckYear;
+    char enteredVehicleType[30];
+    char enteredrefr[4];
+    do
     {
         system("cls || clear");
         gotoxy (10, 4);
@@ -106,12 +116,14 @@ void searchmenu() //TRABAJAR EN ESTA FUNCION, FALTA UN GOTOXY PARA EL MENU
         gotoxy(10, 10);
         cout << "5. Tipo de vehiculo." << endl;
         gotoxy(10, 11);
-        cout << "6. Conductor." << endl;
+        cout << "6. Refrigeracion." << endl;
         gotoxy(10, 12);
-        cout << "7. Mostrar todos los camiones" << endl;
+        cout << "7. Conductor" << endl;
         gotoxy(10, 13);
-        cout << "8. Salir..." << endl;
+        cout << "8. Mostrar todos los registros..." << endl;
         gotoxy(10, 14);
+        cout << "9. Salir"
+        gotoxy(10, 15);
         cout << "Selecione una opcion: ";
         cin >> options;
 
@@ -137,38 +149,110 @@ void searchmenu() //TRABAJAR EN ESTA FUNCION, FALTA UN GOTOXY PARA EL MENU
             system("cls || clear");
             break;
         case 2:
-            cout << "Ingresaste a:" << endl;
-            cout << "Modelo del camion..." << endl;
-
+             system("cls || clear");
+            cout << "Busqueda por placa de vehiculo:" << endl;
+            cout << "Escribe la placa a buscar: ";
+            scanf(" %[^\n]", enteredTruckPlate);
+            pos = searchTruckPlate(enteredTruckPlate);
+            if (pos != -1)
+            {
+                showTruck(pos);
+            }
+            else
+            {
+                cout << "Registro inexistente" << endl;
+            }
+            system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
+            system("cls || clear");
             break;
+
         case 3:
-            cout << "Ingresaste a:" << endl;
-            cout << "Año de fabricacion..." << endl;
-
+            system("cls || clear");
+            cout << "Busqueda por marca de vehiculo:" << endl;
+            cout << "Escribe la marca del vehiculo: ";
+            scanf(" %[^\n]", enteredTruckBrand);
+            pos = searchTruckBrand(enteredTruckBrand);
+            if (pos != -1)
+            {
+                showTruck(pos);
+            }
+            else
+            {
+                cout << "Registro inexistente" << endl;
+            }
+            system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
+            system("cls || clear");
             break;
+
         case 4:
-            cout << "Ingresaste a:" << endl;
-            cout << "Tipo de camion..." << endl;
-
+           system("cls || clear");
+            cout << "Busqueda por año de fabricación:" << endl;
+            cout << "Escriba el año de fabricación: ";
+            cin >> enteredTruckYear;
+            pos = searchTruckYear(enteredTruckYear);
+            if (pos != -1)
+            {
+                showTruck(pos);
+            }
+            else
+            {
+                cout << "Registro inexistente" << endl;
+            }
+            system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
+            system("cls || clear");
             break;
+
         case 5:
-            cout << "Ingresaste a:" << endl;
-            cout << "Codigo del camion..." << endl;
+            system("cls || clear");
+            cout << "Busqueda por tipo de vehiculo:" << endl;
+            cout << "Escriba el tipo de vehiculo";
+            system("cls || clear");
+            cout << "Busqueda de cabezales..." << endl;
+            cin >> enteredVehicleType;
+            pos = searchVehicleType(enteredVehicleType);
+            if (pos != -1)
+            {
+                showTruck(pos);
+            }
+            else
+            {
+                cout << "Registro inexistente" << endl;
+            }
+            system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
+            system("cls || clear");
+            break;
+
+        case 6:
+            system("cls || clear");
+            cout << "Busqueda por refrigeracion..." << endl;
+            cout << "Posee refrigeracion el vehiculo? SI/NO "
+            cin >> enteredrefr;
+            pos = searchRefr(enteredrefr);
+            if (pos != -1)
+            {
+                showTruck(pos);
+            }
+            else
+            {
+                cout << "Registro inexistente" << endl;
+            }
+            system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
+            system("cls || clear");
 
             break;
-        case 6:
+        case 7:
             cout << "Ingresaste a:" << endl;
             cout << "Conductor del camion..." << endl;
 
             break;
-        case 7:
+        case 8:
             cout << "Visualizando todos los datos..." << endl;
             showTrucksRegister();
             system("pause");
 
             break;
 
-        case 8:
+        case 9:
             system("cls || clear");
             cout << "Saliendo del menu de busqueda..." << endl;
             system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
@@ -187,6 +271,76 @@ int searchTruckCode(char enteredTruckCode[])
     for (int i = 0; i < lastReg; i++)
     {
         if (strcmp(enteredTruckCode, trucksData[i].truckCode) == 0)
+        {
+            position = i;
+            break;
+        }
+    }
+    return position;
+}
+
+int searchTruckPlate(char enteredTruckPlate[])
+{
+    int position = -1;
+    for (int i = 0; i < lastReg; i++)
+    {
+        if (strcmp(enteredTruckPlate, trucksData[i].truckPlate) == 0)
+        {
+            position = i;
+            break;
+        }
+    }
+    return position;
+}
+
+int searchTruckBrand(char enteredTruckBrand[])
+{
+    int position = -1;
+    for (int i = 0; i < lastReg; i++)
+    {
+        if (strcmp(enteredTruckBrand, trucksData[i].truckBrand) == 0)
+        {
+            position = i;
+            break;
+        }
+    }
+    return position;
+}
+
+int searchTruckYear(int enteredTruckYear)
+{
+    int position = -1;
+    for (int i = 0; i < lastReg; i++)
+    {
+        if (enteredTruckYear == trucksData[i].truckYear)
+        {
+            position = i;
+            break;
+        }
+    }
+    return position;
+}
+
+int searchVehicleType(char enteredVehicleType[])
+{
+    int position = -1;
+    for (int i = 0; i < lastReg; i++)
+    {
+        if (strcmp(enteredVehicleType, trucksData[i].vehicleType) == 0)
+        {
+            position = i;
+            break;
+        }
+    }
+    return position;
+}
+
+int searchRefr(char enteredRefr[])
+{
+    int position = -1;
+    for (int i = 0; i < lastReg; i++)
+    {
+        if (strcmp(enteredRefr, trucksData[i].refr) == 0)
         {
             position = i;
             break;
