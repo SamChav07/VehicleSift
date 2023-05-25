@@ -58,6 +58,7 @@ void login()
 
             cout << "Acceso concedidio" << endl;
             login = 1;
+            mainmenu();
             system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
             system("cls || clear");
         }
