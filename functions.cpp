@@ -58,7 +58,6 @@ void login()
 
             cout << "Acceso concedidio" << endl;
             login = 1;
-            mainmenu();
             system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
             system("cls || clear");
         }
@@ -123,7 +122,7 @@ void searchmenu() //TRABAJAR EN ESTA FUNCION, FALTA UN GOTOXY PARA EL MENU
         gotoxy(10, 13);
         cout << "8. Mostrar todos los registros..." << endl;
         gotoxy(10, 14);
-        cout << "9. Salir"
+        cout << "9. Salir";
         gotoxy(10, 15);
         cout << "Selecione una opcion: ";
         cin >> options;
@@ -134,7 +133,7 @@ void searchmenu() //TRABAJAR EN ESTA FUNCION, FALTA UN GOTOXY PARA EL MENU
             system("cls || clear");
             cout << "Buscar por codigo de vehiculo:" << endl;
             cout << "Escribe el codigo a buscar: ";
-            scanf(" %[^\n]", enteredTruckCode); //asi se deberian ver todas las funciones cuando sean implementadas
+            scanf(" %[^\n]", enteredTruckCode);
             pos = searchTruckCode(enteredTruckCode);
             if (pos!=-1)
             {
@@ -226,7 +225,7 @@ void searchmenu() //TRABAJAR EN ESTA FUNCION, FALTA UN GOTOXY PARA EL MENU
         case 6:
             system("cls || clear");
             cout << "Busqueda por refrigeracion..." << endl;
-            cout << "Posee refrigeracion el vehiculo? SI/NO "
+            cout << "Posee refrigeracion el vehiculo? SI/NO ";
             cin >> enteredrefr;
             pos = searchRefr(enteredrefr);
             if (pos != -1)
