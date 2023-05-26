@@ -149,7 +149,7 @@ void searchmenu() // TRABAJAR EN ESTA FUNCION, FALTA UN GOTOXY PARA EL MENU
         gotoxy(10, 13);
         cout << "8. Mostrar todos los registros..." << endl;
         gotoxy(10, 14);
-        cout << "9. Salir";
+        cout << "9. Cerrar Sesion";
         gotoxy(10, 15);
         cout << "Selecione una opcion: ";
         cin >> options;
@@ -251,7 +251,7 @@ void searchmenu() // TRABAJAR EN ESTA FUNCION, FALTA UN GOTOXY PARA EL MENU
         case 9:
 
             system("cls || clear");
-            cout << "Saliendo del menu de busqueda..." << endl;
+            login();
             system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
             system("cls || clear");
             break;
