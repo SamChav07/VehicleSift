@@ -20,10 +20,11 @@ void initializeTrucks(int pos);
 void searchmenu();
 int searchTruckCode(char code[]);
 int searchTruckPlate(char plate[]);
-int searchTruckBrand(char brand[]);
-int searchTruckYear(int year);
-int searchVehicleType(char type[]);
-int searchRefr(char refr[]);
+void searchTruckBrand(char brand[]);
+void searchTruckYear(int year);
+void searchVehicleType(char type[]);
+void searchRefr(char refr[]);
+void searchStatus(char status[]);
 void showTruck(int pos);
 void showTrucksRegister();
 trucks getTruck(int pos);
@@ -68,7 +69,7 @@ void login()
         cin >> username;
         cout << "Escriba su contraseña: " << endl;
         cin >> password;
-        
+
         if (username == "Admin" && password == "Tmolina")
         {
 
@@ -116,6 +117,7 @@ void searchmenu() // TRABAJAR EN ESTA FUNCION, FALTA UN GOTOXY PARA EL MENU
     int enteredTruckYear;
     char enteredVehicleType[30];
     char enteredrefr[4];
+    char enteredStatus[15];
     do
     {
         system("cls || clear");
@@ -134,7 +136,7 @@ void searchmenu() // TRABAJAR EN ESTA FUNCION, FALTA UN GOTOXY PARA EL MENU
         gotoxy(10, 11);
         cout << "6. Refrigeracion." << endl;
         gotoxy(10, 12);
-        cout << "7. Conductor" << endl;
+        cout << "7. Estado." << endl;
         gotoxy(10, 13);
         cout << "8. Mostrar todos los registros..." << endl;
         gotoxy(10, 14);
@@ -186,15 +188,7 @@ void searchmenu() // TRABAJAR EN ESTA FUNCION, FALTA UN GOTOXY PARA EL MENU
             cout << "Busqueda por marca de vehiculo:" << endl;
             cout << "Escribe la marca del vehiculo: ";
             scanf(" %[^\n]", enteredTruckBrand);
-            pos = searchTruckBrand(enteredTruckBrand);
-            if (pos != -1)
-            {
-                showTruck(pos);
-            }
-            else
-            {
-                cout << "Registro inexistente" << endl;
-            }
+            searchTruckBrand(enteredTruckBrand);
             system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
             system("cls || clear");
             break;
@@ -204,15 +198,7 @@ void searchmenu() // TRABAJAR EN ESTA FUNCION, FALTA UN GOTOXY PARA EL MENU
             cout << "Busqueda por año de fabricación:" << endl;
             cout << "Escriba el año de fabricación: ";
             cin >> enteredTruckYear;
-            pos = searchTruckYear(enteredTruckYear);
-            if (pos != -1)
-            {
-                showTruck(pos);
-            }
-            else
-            {
-                cout << "Registro inexistente" << endl;
-            }
+            searchTruckYear(enteredTruckYear);
             system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
             system("cls || clear");
             break;
@@ -221,18 +207,8 @@ void searchmenu() // TRABAJAR EN ESTA FUNCION, FALTA UN GOTOXY PARA EL MENU
             system("cls || clear");
             cout << "Busqueda por tipo de vehiculo:" << endl;
             cout << "Escriba el tipo de vehiculo";
-            system("cls || clear");
-            cout << "Busqueda de cabezales..." << endl;
             cin >> enteredVehicleType;
-            pos = searchVehicleType(enteredVehicleType);
-            if (pos != -1)
-            {
-                showTruck(pos);
-            }
-            else
-            {
-                cout << "Registro inexistente" << endl;
-            }
+            searchVehicleType(enteredVehicleType);
             system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
             system("cls || clear");
             break;
@@ -242,22 +218,18 @@ void searchmenu() // TRABAJAR EN ESTA FUNCION, FALTA UN GOTOXY PARA EL MENU
             cout << "Busqueda por refrigeracion..." << endl;
             cout << "Posee refrigeracion el vehiculo? SI/NO ";
             cin >> enteredrefr;
-            pos = searchRefr(enteredrefr);
-            if (pos != -1)
-            {
-                showTruck(pos);
-            }
-            else
-            {
-                cout << "Registro inexistente" << endl;
-            }
+            searchRefr(enteredrefr);
             system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
             system("cls || clear");
 
             break;
         case 7:
-            cout << "Ingresaste a:" << endl;
-            cout << "Conductor del camion..." << endl;
+            cout << "Busqueda por estado: " << endl;
+            cout << "'En viaje' o 'Inactivo'? " << endl;
+            cin >> enteredStatus;
+            searchStatus(enteredStatus);
+            system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
+            system("cls || clear");
 
             break;
         case 8:
@@ -268,11 +240,13 @@ void searchmenu() // TRABAJAR EN ESTA FUNCION, FALTA UN GOTOXY PARA EL MENU
             break;
 
         case 9:
+
             system("cls || clear");
             cout << "Saliendo del menu de busqueda..." << endl;
             system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
             system("cls || clear");
             break;
+
         default:
             cout << "Opcion Invalida. Seleccione una opcion del 1 al 8..." << endl;
             break;
@@ -308,60 +282,96 @@ int searchTruckPlate(char enteredTruckPlate[])
     return position;
 }
 
-int searchTruckBrand(char enteredTruckBrand[])
+void searchTruckBrand(char enteredTruckBrand[])
 {
-    int position = -1;
+    int count = 0;
     for (int i = 0; i < lastReg; i++)
     {
         if (strcmp(enteredTruckBrand, trucksData[i].truckBrand) == 0)
         {
-            position = i;
-            break;
+            cout << "=========================" << endl;
+            showTruck(i);
+            count++;
+        }
+        if (count == 0)
+        {
+            cout << "No se encontraron resultados " << endl;
         }
     }
-    return position;
 }
 
-int searchTruckYear(int enteredTruckYear)
+void searchTruckYear(int enteredTruckYear)
 {
-    int position = -1;
+
+    int count = 0;
     for (int i = 0; i < lastReg; i++)
     {
         if (enteredTruckYear == trucksData[i].truckYear)
         {
-            position = i;
-            break;
+            cout << "=========================" << endl;
+            showTruck(i);
+            count++;
+        }
+        if (count == 0)
+        {
+            cout << "No se encontraron resultados " << endl;
         }
     }
-    return position;
 }
 
-int searchVehicleType(char enteredVehicleType[])
+void searchVehicleType(char enteredVehicleType[])
 {
-    int position = -1;
+    int count = 0;
     for (int i = 0; i < lastReg; i++)
     {
         if (strcmp(enteredVehicleType, trucksData[i].vehicleType) == 0)
         {
-            position = i;
-            break;
+            cout << "=========================" << endl;
+            showTruck(i);
+            count++;
+        }
+        if (count == 0)
+        {
+            cout << "No se encontraron resultados " << endl;
         }
     }
-    return position;
 }
 
-int searchRefr(char enteredRefr[])
+void searchRefr(char enteredRefr[])
 {
-    int position = -1;
+    int count = 0;
     for (int i = 0; i < lastReg; i++)
     {
         if (strcmp(enteredRefr, trucksData[i].refr) == 0)
         {
-            position = i;
-            break;
+            cout << "=========================" << endl;
+            showTruck(i);
+            count++;
+        }
+        if (count == 0)
+        {
+            cout << "No se encontraron resultados " << endl;
         }
     }
-    return position;
+}
+
+void searchStatus(char enteredStatus[])
+{
+
+    int count = 0;
+    for (int i = 0; i < lastReg; i++)
+    {
+        if (strcmp(enteredStatus, trucksData[i].status) == 0)
+        {
+            cout << "=========================" << endl;
+            showTruck(i);
+            count++;
+        }
+        if (count == 0)
+        {
+            cout << "No se encontraron resultados " << endl;
+        }
+    }
 }
 
 void showTruck(int pos)
@@ -517,10 +527,6 @@ void mainmenu()
                 scanf("%d/%d/%d", &currentDriver.assignDate.day, &currentDriver.assignDate.month, &currentDriver.assignDate.year);
                 addDriverRegister(currentDriver);
             }
-            else
-            {
-                break;
-            }
 
             addTruckRegister(currentTruck);
             system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
@@ -582,10 +588,7 @@ void mainmenu()
                     scanf("%d/%d/%d", &currentDriver.assignDate.day, &currentDriver.assignDate.month, &currentDriver.assignDate.year);
                     updateDrivers(currentDriver, driverPos);
                 }
-                else
-                {
-                    break;
-                }
+
                 cout << "Registro actualizado...\n";
                 system("cls || clear");
                 updateTruck(currentTruck, pos);
@@ -733,8 +736,8 @@ void mainmenu()
             if (pos != -1)
             {
                 showTruck(pos);
-                gotoxy(0,0);
-                cout<< "Datos actuales:                             ";
+                gotoxy(0, 0);
+                cout << "Datos actuales:                             ";
                 gotoxy(50, 0);
                 cout << "Datos a modificar: " << endl;
                 gotoxy(50, 2);
