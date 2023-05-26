@@ -68,7 +68,7 @@ void login()
         cin >> username;
         cout << "Escriba su contraseña: " << endl;
         cin >> password;
-        
+
         if (username == "Admin" && password == "Tmolina")
         {
 
@@ -77,17 +77,26 @@ void login()
             mainmenu();
             system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
             system("cls || clear");
+        } 
+        else if (username == "User1" && password == "12345")
+        {
+            cout << "Acceso concedidio" << endl;
+            login = 1;
+            searchmenu();
+            system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
+            system("cls || clear");
         }
         else
         {
             cout << "Acceso denegado..." << endl;
-            cout << "* Presione enter para volver a introdocir las credenciales *" << endl;
+            cout << "*** Presione enter para volver a introdocir las credenciales ***" << endl;
             system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
             system("cls || clear");
         }
 
     } while (login != 1);
 }
+
 
 void addTruckRegister(trucks currentTruck)
 {
