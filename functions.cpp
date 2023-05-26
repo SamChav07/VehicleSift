@@ -540,11 +540,11 @@ void mainmenu()
                 cout << "No hay nada que eliminar\n";
                 break;
             }
-            cout << "Escribe el ID del estudiante: ";
+            cout << "Escribe el Codigo del camion: ";
             cin >> enteredTruckCode;
             pos = searchTruckCode(enteredTruckCode);
             currentTruck = getTruck(pos);
-            cout << "¿Realmente deseas eliminar el vehiculo: " << currentTruck.truckCode << "?\n";
+            cout << "¿Realmente deseas eliminar el vehiculo: " << currentTruck.truckCode << " ?\n";
             cout << "Escribe 1 para SI o 2 para NO: ";
             cin >> resp;
             if (resp == 1)
