@@ -439,8 +439,10 @@ void mainmenu()
         system("cls || clear");
         gotoxy(10, 5);
         cout << " Bienvenido a VehicleSift" << endl;
-        gotoxy(15, 6);
-        cout << "Cantidad de registros de vehiculos: " << lastReg << " Cantidad de registros de conductores: " << lastDriverReg << endl;
+        gotoxy(11, 6);
+        cout << "Cantidad de registros de vehiculos: " << lastReg;
+        gotoxy(60, 6);
+        cout << " Cantidad de registros de conductores: " << lastDriverReg << endl;
         gotoxy(10, 9);
         cout << " 1. Agregar Vehiculo " << endl;
         gotoxy(10, 10);
