@@ -681,6 +681,7 @@ void mainmenu()
 
             break;
         case 7:
+            system("cls||clear");
             cout << "Escribe el ID del conductor a modificar: ";
             scanf(" %[^\n]", enteredDriverID);
             driverPos = searchDriverID(enteredDriverID);
@@ -693,7 +694,7 @@ void mainmenu()
             cout << "ID del conductor: ";
             gotoxy(0, 0);
             cout << "Datos actuales:                               ";
-            gotoxy(70, 2);
+            gotoxy(71, 2);
             scanf(" %[^\n]", currentDriver.driverName);
             gotoxy(68, 3);
             scanf(" %[^\n]", currentDriver.id);
@@ -865,9 +866,11 @@ int searchDriverID(char enteredDriverID[])
 
 void showDriverData(int driverPos)
 {
-
+    gotoxy(0, 2);
     cout << "Nombre del conductor: " << driversData[driverPos].driverName << endl;
+    gotoxy(0, 3);
     cout << "ID del conductor: " << driversData[driverPos].id << endl;
+    gotoxy(0, 4);
     cout << "Fecha de asignacion: " << driversData[driverPos].assignDate.day << "/" << driversData[driverPos].assignDate.month << "/" << driversData[driverPos].assignDate.year << endl;
 }
 
