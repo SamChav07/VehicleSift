@@ -68,19 +68,20 @@ void login()
         cin >> username;
         cout << "Escriba su contraseña: " << endl;
         cin >> password;
-
+        
         if (username == "Admin" && password == "Tmolina")
         {
 
             cout << "Acceso concedidio" << endl;
             login = 1;
+            mainmenu();
             system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
             system("cls || clear");
         }
         else
         {
             cout << "Acceso denegado..." << endl;
-            cout << "*** Presione enter para volver a introdocir las credenciales ***" << endl;
+            cout << "* Presione enter para volver a introdocir las credenciales *" << endl;
             system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
             system("cls || clear");
         }
