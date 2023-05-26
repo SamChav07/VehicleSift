@@ -37,10 +37,10 @@ void mainmenu();
 // Seccion conductores
 void addDriverRegister(drivers currentDriver);
 void initializeDriver(int driverPos);
-
+int searchDriverID(char id[]);
 void showDriverData(int driverPos);
 void showDriversRegister();
-drivers getDriver();
+drivers getDriver(int driverPos);
 void updateDrivers(drivers currentDriver, int driverPos);
 void deleteDriver(int driverPos);
 // Archivos para conductores
@@ -103,11 +103,10 @@ void initializeTrucks(int pos)
     trucksData[pos].truckYear = 0;
     strcpy(trucksData[pos].vehicleType, "");
     strcpy(trucksData[pos].refr, "");
-    strcpy(trucksData[pos].driverInfo.driverName, "");
-    strcpy(trucksData[pos].driverInfo.driverLastname, "");
+    strcpy(trucksData[pos].status, "");
 }
 
-void searchmenu() //TRABAJAR EN ESTA FUNCION, FALTA UN GOTOXY PARA EL MENU
+void searchmenu() // TRABAJAR EN ESTA FUNCION, FALTA UN GOTOXY PARA EL MENU
 {
     int options, pos;
     char enteredTruckCode[10];
@@ -119,7 +118,7 @@ void searchmenu() //TRABAJAR EN ESTA FUNCION, FALTA UN GOTOXY PARA EL MENU
     do
     {
         system("cls || clear");
-        gotoxy (10, 4);
+        gotoxy(10, 4);
         cout << "** Menu de busqueda **" << endl;
         gotoxy(10, 6);
         cout << "1. Codigo de vehiculo." << endl;
@@ -151,21 +150,20 @@ void searchmenu() //TRABAJAR EN ESTA FUNCION, FALTA UN GOTOXY PARA EL MENU
             cout << "Escribe el codigo a buscar: ";
             scanf(" %[^\n]", enteredTruckCode);
             pos = searchTruckCode(enteredTruckCode);
-            if (pos!=-1)
+            if (pos != -1)
             {
                 showTruck(pos);
             }
             else
             {
-                cout<<"Registro inexistente" << endl;
+                cout << "Registro inexistente" << endl;
             }
-            
 
             system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
             system("cls || clear");
             break;
         case 2:
-             system("cls || clear");
+            system("cls || clear");
             cout << "Busqueda por placa de vehiculo:" << endl;
             cout << "Escribe la placa a buscar: ";
             scanf(" %[^\n]", enteredTruckPlate);
@@ -201,7 +199,7 @@ void searchmenu() //TRABAJAR EN ESTA FUNCION, FALTA UN GOTOXY PARA EL MENU
             break;
 
         case 4:
-           system("cls || clear");
+            system("cls || clear");
             cout << "Busqueda por año de fabricación:" << endl;
             cout << "Escriba el año de fabricación: ";
             cin >> enteredTruckYear;
@@ -374,7 +372,15 @@ void showTruck(int pos)
     cout << "Año de vehiculo: " << trucksData[pos].truckYear << endl;
     cout << "Tipo de vehiculo: " << trucksData[pos].vehicleType << endl;
     cout << "Refrigeracion: " << trucksData[pos].refr << endl;
-    cout << "Conductor: " << trucksData[pos].driverInfo.driverName << " " << trucksData[pos].driverInfo.driverLastname << endl;
+    cout << "Estado: " << trucksData[pos].status << endl;
+
+    if (strcmp(trucksData[pos].status, "En viaje") == 0)
+    {
+
+        cout << "Conductor asignado: " << driversData[pos].driverName << endl;
+        cout << "ID del conductor: " << driversData[pos].id << endl;
+        cout << "Fecha de asignacion: " << driversData[pos].assignDate.day << "/" << driversData[pos].assignDate.month << "/" << driversData[pos].assignDate.year << endl;
+    }
 }
 
 void showTrucksRegister()
@@ -421,16 +427,19 @@ void deleteTruck(int pos)
 void mainmenu()
 {
     trucks currentTruck;
-    int actions, pos, resp;
+    drivers currentDriver;
+    int actions, pos, resp, driverPos;
     char enteredTruckCode[10];
+    char enteredDriverID[10];
     readTrucks();
+    readDrivers();
     do
     {
         system("cls || clear");
         gotoxy(10, 5);
         cout << " Bienvenido a VehicleSift" << endl;
         gotoxy(15, 6);
-        cout << "Cantidad de registros: " << lastReg << endl;
+        cout << "Cantidad de registros de vehiculos: " << lastReg << " Cantidad de registros de conductores: " << lastDriverReg << endl;
         gotoxy(10, 9);
         cout << " 1. Agregar Vehiculo " << endl;
         gotoxy(10, 10);
@@ -442,17 +451,26 @@ void mainmenu()
         gotoxy(10, 13);
         cout << " 5. Mostrar todos los Vehiculos " << endl;
         gotoxy(10, 14);
-        cout << " 6. Salir " << endl;
+        cout << " 6. Añadir Conductor " << endl;
         gotoxy(10, 15);
+        cout << " 7. Modificar Conductor " << endl;
+        gotoxy(10, 16);
+        cout << " 8. Eliminar Conductor " << endl;
+        gotoxy(10, 17);
+        cout << " 9. Mostrar todos los conductores " << endl;
+        gotoxy(10, 18);
+        cout << " 10. Modificar asignacion " << endl;
+        gotoxy(10, 19);
+        cout << " 11. Salir " << endl;
+        gotoxy(10, 20);
         cout << " Digite la opcion: ";
-        gotoxy(29, 15);
+        gotoxy(29, 20);
         cin >> actions;
 
         switch (actions)
         {
         case 1:
             system("cls || clear");
-            cout << "Ingresaste a la opcion 2: " << endl;
             cout << "*** Ingresa los datos a añadir ***" << endl;
             system("cls || clear");
             gotoxy(10, 5);
@@ -468,7 +486,8 @@ void mainmenu()
             gotoxy(10, 10);
             cout << "Refrigeracion: " << endl;
             gotoxy(10, 11);
-            cout << "Conductor asignado: " << endl;
+            cout << "Estado: " << endl;
+            gotoxy(10, 12);
             gotoxy(35, 5);
             scanf(" %[^\n]", currentTruck.truckCode);
             gotoxy(35, 6);
@@ -482,7 +501,26 @@ void mainmenu()
             gotoxy(35, 10);
             scanf(" %[^\n]", currentTruck.refr);
             gotoxy(35, 11);
-            scanf(" %[^\n]", currentTruck.driverInfo.driverName); // currentTruck.driverInfo.driverLastname);
+            scanf(" %[^\n]", currentTruck.status);
+            if (strcmp(currentTruck.status, "En viaje") == 0)
+            {
+
+                gotoxy(10, 12);
+                cout << "Conductor asignado: " << endl;
+                scanf(" %[^\n]", currentDriver.driverName);
+                gotoxy(10, 13);
+                cout << "ID del conductor a asignar ";
+                scanf(" %[^\n]", currentDriver.id);
+                gotoxy(10, 13);
+                cout << "Fecha de asignacion: " << endl;
+                scanf("%d/%d/%d", &currentDriver.assignDate.day, &currentDriver.assignDate.month, &currentDriver.assignDate.year);
+                addDriverRegister(currentDriver);
+            }
+            else
+            {
+                break;
+            }
+
             addTruckRegister(currentTruck);
             system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
 
@@ -490,45 +528,72 @@ void mainmenu()
         case 2:
 
             system("cls||clear");
-            cout << "Escribe el codigo a buscar: ";
+            cout << "Escribe el codigo del vehiculo a modificar: ";
             scanf(" %[^\n]", enteredTruckCode);
             pos = searchTruckCode(enteredTruckCode);
-            showTruck(pos);
-            gotoxy(50, 0);
-            cout << "Datos a modificar: " << endl;
-            gotoxy(50, 2);
-            cout << "Codigo de vehiculo:";
-            gotoxy(50, 3);
-            cout << "Placa de vehiculo: ";
-            gotoxy(50, 4);
-            cout << "Marca de vehiculo: ";
-            gotoxy(50, 5);
-            cout << "Año de vehiculo: ";
-            gotoxy(50, 6);
-            cout << "Tipo de vehiculo: ";
-            gotoxy(50, 7);
-            cout << "Refrigeracion: ";
-            gotoxy(50, 8);
-            cout << "Conductor asignado: ";
-            gotoxy(0, 0);
-            cout << "Datos actuales:                               ";
-            gotoxy(70, 2);
-            scanf(" %[^\n]", currentTruck.truckCode);
-            gotoxy(68, 3);
-            scanf(" %[^\n]", currentTruck.truckPlate);
-            gotoxy(57, 4);
-            scanf(" %[^\n]", currentTruck.truckBrand);
-            gotoxy(72, 5);
-            cin >> currentTruck.truckYear;
-            gotoxy(57, 6);
-            scanf(" %[^\n]", currentTruck.vehicleType);
-            gotoxy(64, 7);
-            scanf(" %[^\n]", currentTruck.refr);
-            gotoxy(61, 8);
-            scanf(" %[^\n]", currentTruck.driverInfo.driverName); // currentTruck.driverInfo.driverLastname);
-            cout << "Registro actualizado...\n";
-            system("cls || clear");
-            updateTruck(currentTruck, pos);
+            if (pos != -1)
+            {
+                system("cls || clear");
+                showTruck(pos);
+                gotoxy(50, 0);
+                cout << "Datos a modificar: " << endl;
+                gotoxy(50, 2);
+                cout << "Codigo de vehiculo:";
+                gotoxy(50, 3);
+                cout << "Placa de vehiculo: ";
+                gotoxy(50, 4);
+                cout << "Marca de vehiculo: ";
+                gotoxy(50, 5);
+                cout << "Año de vehiculo: ";
+                gotoxy(50, 6);
+                cout << "Tipo de vehiculo: ";
+                gotoxy(50, 7);
+                cout << "Refrigeracion: ";
+                gotoxy(50, 8);
+                cout << "Estado: ";
+                gotoxy(0, 0);
+                cout << "Datos actuales:                               ";
+                gotoxy(70, 2);
+                scanf(" %[^\n]", currentTruck.truckCode);
+                gotoxy(68, 3);
+                scanf(" %[^\n]", currentTruck.truckPlate);
+                gotoxy(65, 4);
+                scanf(" %[^\n]", currentTruck.truckBrand);
+                gotoxy(72, 5);
+                cin >> currentTruck.truckYear;
+                gotoxy(65, 6);
+                scanf(" %[^\n]", currentTruck.vehicleType);
+                gotoxy(65, 7);
+                scanf(" %[^\n]", currentTruck.refr);
+                gotoxy(65, 8);
+                scanf(" %[^\n]", currentTruck.status);
+                if (strcmp(currentTruck.status, "En viaje") == 0)
+                {
+
+                    gotoxy(10, 12);
+                    cout << "Conductor asignado: " << endl;
+                    scanf(" %[^\n]", currentDriver.driverName);
+                    gotoxy(10, 13);
+                    cout << "ID del conductor a asignar ";
+                    scanf(" %[^\n]", currentDriver.id);
+                    gotoxy(10, 13);
+                    cout << "Fecha de asignacion: " << endl;
+                    scanf("%d/%d/%d", &currentDriver.assignDate.day, &currentDriver.assignDate.month, &currentDriver.assignDate.year);
+                    updateDrivers(currentDriver, driverPos);
+                }
+                else
+                {
+                    break;
+                }
+                cout << "Registro actualizado...\n";
+                system("cls || clear");
+                updateTruck(currentTruck, pos);
+            }
+            else
+            {
+                cout << "Registro inexistente" << endl;
+            }
+
             system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
 
             break;
@@ -540,23 +605,31 @@ void mainmenu()
                 cout << "No hay nada que eliminar\n";
                 break;
             }
-            cout << "Escribe el Codigo del camion: ";
+            cout << "Escribe el ID del estudiante: ";
             cin >> enteredTruckCode;
             pos = searchTruckCode(enteredTruckCode);
-            currentTruck = getTruck(pos);
-            cout << "¿Realmente deseas eliminar el vehiculo: " << currentTruck.truckCode << " ?\n";
-            cout << "Escribe 1 para SI o 2 para NO: ";
-            cin >> resp;
-            if (resp == 1)
+            if (pos != -1)
             {
-                deleteTruck(pos);
-                cout << "Registro Eliminado... \n";
+
+                currentTruck = getTruck(pos);
+                cout << "¿Realmente deseas eliminar el vehiculo: " << currentTruck.truckCode << "?\n";
+                cout << "Escribe 1 para SI o 2 para NO: ";
+                cin >> resp;
+                if (resp == 1)
+                {
+                    deleteTruck(pos);
+                    cout << "Registro Eliminado... \n";
+                }
+                else
+                {
+                    cout << "Operacion cancelada.... \n";
+                }
+                system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
             }
             else
             {
-                cout << "Operacion cancelada.... \n";
+                cout << "Registro inexistente" << endl;
             }
-            system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
             break;
 
         case 4:
@@ -574,13 +647,138 @@ void mainmenu()
             break;
 
         case 6:
+            system("cls || clear");
+            cout << "*** Ingresa los datos a añadir ***" << endl;
+            system("cls || clear");
+            gotoxy(10, 5);
+            cout << "Nombre completo del conductor: " << endl;
+            gotoxy(10, 6);
+            cout << "ID del conductor: " << endl;
+            gotoxy(45, 5);
+            scanf(" %[^\n]", currentDriver.driverName);
+            gotoxy(30, 6);
+            scanf(" %[^\n]", currentDriver.id);
+            currentDriver.assignDate.day = 0;
+            currentDriver.assignDate.month = 0;
+            currentDriver.assignDate.year = 0;
+            addDriverRegister(currentDriver);
+            system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
+
+            break;
+        case 7:
+            cout << "Escribe el ID del conductor a modificar: ";
+            scanf(" %[^\n]", enteredDriverID);
+            driverPos = searchDriverID(enteredDriverID);
+            showDriverData(driverPos);
+            gotoxy(50, 0);
+            cout << "Datos a modificar: " << endl;
+            gotoxy(50, 2);
+            cout << "Nombre del conductor:";
+            gotoxy(50, 3);
+            cout << "ID del conductor: ";
+            gotoxy(0, 0);
+            cout << "Datos actuales:                               ";
+            gotoxy(70, 2);
+            scanf(" %[^\n]", currentDriver.driverName);
+            gotoxy(68, 3);
+            scanf(" %[^\n]", currentDriver.id);
+            gotoxy(57, 4);
+            cout << "Registro actualizado...\n";
+            system("cls || clear");
+            updateDrivers(currentDriver, driverPos);
+            system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
+
+            break;
+
+        case 8:
+
+            system("cls||clear");
+            if (lastDriverReg == 0)
+            {
+                cout << "No hay nada que eliminar\n";
+                break;
+            }
+            cout << "Escribe el ID del conductor: ";
+            cin >> enteredDriverID;
+            pos = searchDriverID(enteredDriverID);
+            currentDriver = getDriver(driverPos);
+            cout << "¿Realmente deseas eliminar el conductor: " << currentDriver.driverName << "?\n";
+            cout << "Escribe 1 para SI o 2 para NO: ";
+            cin >> resp;
+            if (resp == 1)
+            {
+                deleteTruck(pos);
+                cout << "Registro Eliminado... \n";
+            }
+            else
+            {
+                cout << "Operacion cancelada.... \n";
+            }
+            system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
+            break;
+
+        case 9:
+            system("cls||clear");
+            showDriversRegister();
+            system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
+
+            break;
+
+        case 10:
+            system("cls||clear");
+            cout << "Escribe el codigo del vehiculo a modificar asignacion: ";
+            scanf(" %[^\n]", enteredTruckCode);
+            pos = searchTruckCode(enteredTruckCode);
+            if (pos != -1)
+            {
+                showTruck(pos);
+                gotoxy(0,0);
+                cout<< "Datos actuales:                             ";
+                gotoxy(50, 0);
+                cout << "Datos a modificar: " << endl;
+                gotoxy(50, 2);
+                cout << "Estado: ";
+                scanf(" %[^\n]", currentTruck.status);
+                if (strcmp(currentTruck.status, "En viaje") == 0)
+                {
+
+                    gotoxy(10, 12);
+                    cout << "Conductor asignado: " << endl;
+                    scanf(" %[^\n]", currentDriver.driverName);
+                    gotoxy(10, 13);
+                    cout << "ID del conductor a asignar ";
+                    scanf(" %[^\n]", currentDriver.id);
+                    gotoxy(10, 13);
+                    cout << "Fecha de asignacion: " << endl;
+                    scanf("%d/%d/%d", &currentDriver.assignDate.day, &currentDriver.assignDate.month, &currentDriver.assignDate.year);
+                    updateDrivers(currentDriver, driverPos);
+                }
+                else
+                {
+                    break;
+                }
+                updateTruck(currentTruck, pos);
+                cout << "Registro actualizado...\n";
+                system("cls || clear");
+            }
+            else
+            {
+                cout << "Registro inexistente" << endl;
+            }
+            updateTruck(currentTruck, pos);
+            system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
+            system("cls || clear");
+
+            break;
+        case 11:
 
             break;
         default:
             cout << "Opcion Invalida. Seleccione una opcion del 1 al 5..." << endl;
             break;
         }
-    } while (actions != 6);
+    } while (actions != 11);
+    saveDrivers();
     saveTrucks();
 }
 
@@ -630,10 +828,24 @@ void initializeDriver(int driverPos)
 
     strcpy(driversData[driverPos].driverName, " ");
     strcpy(driversData[driverPos].id, " ");
-    strcpy(driversData[driverPos].driverStatus, " ");
     driversData[driverPos].assignDate.day = 0;
     driversData[driverPos].assignDate.month = 0;
     driversData[driverPos].assignDate.year = 0;
+}
+
+int searchDriverID(char enteredDriverID[])
+{
+
+    int position = -1;
+    for (int i = 0; i < lastDriverReg; i++)
+    {
+        if (strcmp(enteredDriverID, driversData[i].id) == 0)
+        {
+            position = i;
+            break;
+        }
+    }
+    return position;
 }
 
 void showDriverData(int driverPos)
@@ -641,7 +853,6 @@ void showDriverData(int driverPos)
 
     cout << "Nombre del conductor: " << driversData[driverPos].driverName << endl;
     cout << "ID del conductor: " << driversData[driverPos].id << endl;
-    cout << "Estado del conductor: " << driversData[driverPos].driverStatus << endl;
     cout << "Fecha de asignacion: " << driversData[driverPos].assignDate.day << "/" << driversData[driverPos].assignDate.month << "/" << driversData[driverPos].assignDate.year << endl;
 }
 
@@ -670,7 +881,6 @@ void updateDrivers(drivers currentDriver, int driverPos)
 {
 
     driversData[driverPos] = currentDriver;
-
 }
 
 void deleteDriver(int driverPos)
@@ -687,7 +897,6 @@ void deleteDriver(int driverPos)
     }
     lastDriverReg--;
     initializeDriver(lastDriverReg);
-
 }
 
 void saveDrivers()
@@ -696,7 +905,6 @@ void saveDrivers()
     driversRegister = fopen("datosConductores.bin", "wb");
     fwrite(driversData, sizeof(drivers), lastDriverReg, driversRegister);
     fclose(driversRegister);
-
 }
 
 void readDrivers()
@@ -711,19 +919,18 @@ void readDrivers()
     fread(driversData, sizeof(drivers), MAX, driversRegister);
 
     fclose(driversRegister);
-
 }
 
 int calcLastDriversRegister(FILE *archivoConductores)
 {
 
-int tam_archivoConductores, num_drivers;
+    int tam_archivoConductores, num_drivers;
     // Obtener el tamaño del archivo
     fseek(archivoConductores, 0, SEEK_END);
     tam_archivoConductores = ftell(archivoConductores);
     rewind(archivoConductores);
 
-    // Calcular el número de vehiculos
-    num_drivers = tam_archivoConductores / sizeof(trucks);
+    // Calcular el número de conductores
+    num_drivers = tam_archivoConductores / sizeof(drivers);
     return num_drivers;
 }

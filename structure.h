@@ -14,9 +14,7 @@ typedef struct
 typedef struct 
 {
     char driverName[30];
-    char driverLastname[30];
     char id [10];
-    char driverStatus[8];
     date assignDate;
 
 }drivers;
@@ -29,7 +27,8 @@ typedef struct
     int truckYear;
     char vehicleType[30];
     char refr[4];
-    drivers driverInfo;
+    char status[15];
+   
 
 }trucks;
 
