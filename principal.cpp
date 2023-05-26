@@ -5,8 +5,8 @@ using namespace std;
 
 int main()
 {
-    //login()
-    mainmenu();
+    login();
+    //mainmenu();
     
     return 0;
 }

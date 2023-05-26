@@ -483,17 +483,19 @@ void mainmenu()
         gotoxy(10, 18);
         cout << " 10. Modificar asignacion " << endl;
         gotoxy(10, 19);
-        cout << " 11. Salir " << endl;
+        cout << " 11. Cerrar Sesion." << endl;
         gotoxy(10, 20);
+        cout << " 12. Salir del programa.";
+        gotoxy(10, 21);
         cout << " Digite la opcion: ";
-        gotoxy(29, 20);
+        gotoxy(29, 21);
         cin >> actions;
 
         switch (actions)
         {
         case 1:
             system("cls || clear");
-            cout << "*** Ingresa los datos a añadir ***" << endl;
+            cout << "* Ingresa los datos a añadir *" << endl;
             system("cls || clear");
             gotoxy(10, 5);
             cout << "Codigo de vehiculo:" << endl;
@@ -663,7 +665,7 @@ void mainmenu()
 
         case 6:
             system("cls || clear");
-            cout << "*** Ingresa los datos a añadir ***" << endl;
+            cout << "* Ingresa los datos a añadir *" << endl;
             system("cls || clear");
             gotoxy(10, 5);
             cout << "Nombre completo del conductor: " << endl;
@@ -787,13 +789,22 @@ void mainmenu()
 
             break;
         case 11:
+            system("cls || clear");
+            login();
+            system("pause || read -p 'Presiona Enter para continuar...' -n 1 -s");
+            system("cls || clear");
+            break;
+
+        case 12:
 
             break;
+
         default:
             cout << "Opcion Invalida. Seleccione una opcion del 1 al 5..." << endl;
             break;
+
         }
-    } while (actions != 11);
+    } while (actions != 12);
     saveDrivers();
     saveTrucks();
 }
