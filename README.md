@@ -1,43 +1,43 @@
 # 🚚 VehicleSift
 
-**VehicleSift** es una aplicación web diseñada para **gestionar y clasificar flotas de vehículos de forma eficiente**.  
-Desarrollada como caso de estudio final para el curso de *Lógica y Algoritmo* en Ingeniería en Sistemas de Información, esta solución responde a la necesidad real de la empresa **Transportes Molina**, que enfrenta problemas de logística y costos debido a la falta de control sobre el estado de sus vehículos.
+**VehicleSift** is a web application designed to **efficiently manage and classify vehicle fleets**.  
+Developed as a final case study for the *Logic and Algorithm* course in the Information Systems Engineering program, this solution addresses the real-world needs of the company **Transportes Molina**, which faces logistical and financial challenges due to the lack of proper control over the condition of its vehicles.
 
 ---
 
-## 🎯 Objetivo del Proyecto
+## 🎯 Project Objective
 
-Optimizar la **gestión de mantenimiento y logística vehicular**, proporcionando una herramienta que permita:
+To optimize **vehicle maintenance and logistics management** by providing a tool that allows users to:
 
-- Registrar el estado de cada vehículo.
-- Filtrar rápidamente según modelo, marca, año o estado.
-- Tomar decisiones informadas para reducir costos de mantenimiento y mejorar la seguridad operativa.
+- Record the status of each vehicle.
+- Quickly filter vehicles by model, brand, year, or status.
+- Make informed decisions to reduce maintenance costs and improve operational safety.
 
 ---
 
-## 🛠️ Funcionalidades Clave
+## 🛠️ Key Features
 
-### 🔍 Sistema de búsqueda por filtros dinámicos
-Permite buscar vehículos por:
+### 🔍 Dynamic Filter-Based Search System
+Allows users to filter vehicles by:
 
-- Modelo  
-- Año de fabricación  
-- Estado (activo, en mantenimiento, inactivo)  
-- Marca  
+- Model  
+- Year of manufacture  
+- Status (active, under maintenance, inactive)  
+- Brand  
 
-### 📋 Vista detallada de cada vehículo
-Incluye información como:
+### 📋 Detailed Vehicle View
+Displays additional vehicle information including:
 
-- Nombre del modelo  
-- Marca  
-- Tipo de vehículo  
-- Año de fabricación  
-- Estado actual  
+- Model name  
+- Brand  
+- Vehicle type  
+- Year of manufacture  
+- Current status  
 - Color  
 
-### 🔐 Autenticación de usuarios (Logística y Mantenimiento)
+### 🔐 User Authentication (Logistics & Maintenance)
 
-- Acceso mediante correo institucional y contraseñas alfanuméricas.  
-- Roles predeterminados para cada tipo de usuario.
+- Login via institutional email and alphanumeric passwords.  
+- Predefined roles for each user type.
 
 ---
